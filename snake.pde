@@ -452,6 +452,7 @@ void menu(){
      nbObstacles=0;
      
     modeSpeed=0;
+    modeGhost=false;
     taille=3;
     serpent = new anneau[taille];
     for (int i = 0; i < taille; i++) {
@@ -498,7 +499,7 @@ void collectDirection(){
 void collectObstacle(){
  
    if ( (mousePressed)&&(compteurRelou==0)&& (!(mouseX>600&&mouseY>600)) ) {
-     f
+     
      int futurObstacleX = min(30,max(int((mouseX+10)/k),1));
      int futurObstacleY = min(30,max(int((mouseY+10)/k),1));
      if((checkCollision(futurObstacleX,futurObstacleY)==0)&&((futurX!=futurObstacleX)||(futurY!=futurObstacleY))){
@@ -545,7 +546,7 @@ void collectObstacle(){
       float aleat = random(0,10);
         if (aleat>9){
           isPommeIce=true;
-        }else if(aleat>1.4 && modeGhost == false){
+        }else if(aleat>6.4 && modeGhost == false){
           isPommeGhost=true;
         }
     }

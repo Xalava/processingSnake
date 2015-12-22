@@ -23,6 +23,7 @@
   obstacle[] obstacles;
   int nbObstacles;
   int compteurRelou;
+  int compteurPasRelou;
   
   int state=0;
   
@@ -32,6 +33,7 @@
   PImage imgPommeIce;
   PImage imgPommeGhost;
   PImage imgInformation;
+  PImage imgBg;
 
   PFont zigBlack;
   int vitesse;
@@ -48,6 +50,8 @@ void setup() {
   imgPommeIce = loadImage("pommeIce.png");
   imgPommeGhost = loadImage("pommeGhost.png");
   imgInformation = loadImage("information.png");
+  imgBg = loadImage("snake.jpg");
+
 }
 
 void draw() {
@@ -56,7 +60,8 @@ void draw() {
   if (state==-1){
     affichageInformation();
   }else if ( state == 0){
-      background(0,40,0);
+      //background(0,40,0);
+      background(imgBg);
        menu();
   } else if (state == 1){
       fill(255,0,0);
@@ -101,6 +106,12 @@ void draw() {
     
     if(compteurRelou>0){
       compteurRelou--;
+    } else if(compteurPasRelou>0){
+      compteurPasRelou--;
+    } else {
+       //Fin des deux compteurs poser un obstacle et réinit
+       nouvelObstacleAleat();
+
     }
     
   }
@@ -234,7 +245,7 @@ void draw() {
 }
 
 void mangerPomme(){
-      leScore = leScore+int(taille*vitesse/30);
+      leScore = leScore+int((taille*vitesse+nbObstacles)/20);
       taille = taille+1;
       serpent= (anneau[])expand(serpent,taille);
       
@@ -360,6 +371,7 @@ textSize(10);
        text(int(compteurRelou/10), 589,13);
      }else {
        text("Obstacle à déposer avec la souris",350,13);
+       text(int(compteurPasRelou/10), 589,13);
      }
     
     image(imgInformation,588, 588);
@@ -447,6 +459,7 @@ void menu(){
      taille = 3;
      
      compteurRelou = 150;
+     compteurPasRelou = 150;
 
      obstacles = new obstacle[0];
      nbObstacles=0;
@@ -535,12 +548,11 @@ void collectObstacle(){
     int futurPommeX = int(random(1,30));    
     int futurPommeY = int(random(1,30));
     
-    //tester si la pomme ne tombe pas sur le serpent
-    for (int j = 0; j < taille; j++) {
-      if (serpent[j].selfCollision(futurPommeX,futurPommeY)){
+    //tester si la pomme ne tombe pas sur un objet existant
+    if ((checkCollision(futurPommeX,futurPommeY)!=0)){
         return ;
       }
-    }
+    
     
     if (state==3){
       float aleat = random(0,10);
@@ -556,7 +568,27 @@ void collectObstacle(){
     pommeY=futurPommeY;
     isPomme = true;
     
-  }
+}
+
+void nouvelObstacleAleat(){
+    
+    int futurObsX = int(random(1,30));    
+    int futurObsY = int(random(1,3))*10;
+    
+    //tester si obstacle tombe sur objet pas existant
+   
+      if ((checkCollision(futurObsX,futurObsY)!=0)){
+        return ;
+      }
+       
+       nbObstacles = nbObstacles+1;
+       obstacles= (obstacle[])expand(obstacles,nbObstacles);
+       obstacles[nbObstacles-1] = new obstacle(futurObsX,futurObsY);
+           
+      compteurRelou=150;
+      compteurPasRelou=150;
+     
+}
 
 int checkCollision(int futurX,int futurY){
     // return 1 quand collision, 2 si pomme, 0 si rien

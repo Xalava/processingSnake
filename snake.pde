@@ -1,47 +1,53 @@
   int leScore ;
+  // direction de la prochaine tete
   int dirX;
   int dirY ;
-  int taille ;
   
+  //Serpent
+  int taille ;
+
   int futurX;
   int futurY;
   
-    int futurXghost;
+  int futurXghost;
   int futurYghost;
+  
   anneau[] serpent;
   anneau[] serpentBis;
   
+  //flag de la pomme déposée
   boolean isPomme ;
   boolean isPommeIce ;
   boolean isPommeGhost ;
   
-  boolean modeGhost;
-  
   int pommeX;
   int pommeY;
-  
+
+  // Gestion des obtacles.
   obstacle[] obstacles;
   int nbObstacles;
-  int compteurRelou;
-  int compteurPasRelou;
+  int compteurRelou; // quand pourra t'on déposer un obstacle relou
+  int compteurPasRelou; // temps avant qu'il finisse par etre déposé aléatoirement selont deux ligne
   
-  int state=0;
-  
+  //etat du jeu
+  int state=0; // 0 menu initial, 1 menu game over, 2 et 3 modes de jeux
+  int vitesse;
+  int modeSpeed; // mode "cobra"
+  int alter; // pour l'éffet psychedélique
+  boolean modeGhost;   //mode serpent fantome 
+
   //Coefficient grid
   int k = 20;
+  
+  //assets
   PImage imgPomme;
   PImage imgPommeIce;
   PImage imgPommeGhost;
   PImage imgInformation;
   PImage imgBg;
-
   PFont zigBlack;
-  int vitesse;
-  
-  int modeSpeed;
-  int timerObstacle;
 
-  int alter;
+
 void setup() {
   size(620, 620);
    
@@ -165,13 +171,10 @@ void draw() {
     default:             
       println("error");   
       break;
-    }// fin switch
-    //<>//
-    println(serpent.length);
+    }// fin switch //<>//
  
    //ajout nouvelle tete
     serpent[0] = new anneau (futurX,futurY);
-    
     
    //dessinerSerpent
    for (int j = 0; j < taille; j++) {
@@ -380,8 +383,8 @@ textSize(10);
   
  fill(200,200,0);
  textSize(10);
- text("vitesse", 512,590);
- text(vitesse, 552,590);
+ //text("vitesse", 512,590);
+ //text(vitesse, 552,590);
  
 
 

@@ -126,15 +126,14 @@ void draw() {
   if (! isPomme) {
      nouvellePomme();
   } 
-  affichagePomme();
-  //redessiner pomme
+  affichagePomme();   //redessiner pomme
+
 
   
    // redessiner obstacle
-   
-       for (int i = 0; i < nbObstacles; i++) {
-        obstacles[i].display();
-      } 
+   for (int i = 0; i < nbObstacles; i++) {
+     obstacles[i].display();
+   } 
    
   
   collectDirection();
@@ -157,17 +156,19 @@ void draw() {
         serpent[j] = serpent[j-1];
       }     
       break;
+      
     case 1:
       // cas self, obstacle game over
       state =1;
-;
       break;
+      
     case 2:
     // cas pomme
     effetPomme(futurX,futurY);
     mangerPomme(); 
     
       break;
+      
     default:             
       println("error");   
       break;
@@ -221,29 +222,6 @@ void draw() {
 
   } // fin si modeGhost
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   checkInformation();
 }
 
@@ -259,14 +237,11 @@ void mangerPomme(){
       if(modeGhost){
              serpentBis= (anneau[])expand(serpentBis,taille);
       
-      for (int j = taille-1; j > 0; j--) {
-        serpentBis[j] = serpentBis[j-1];
-      }  
-       
+        for (int j = taille-1; j > 0; j--) {
+          serpentBis[j] = serpentBis[j-1];
+        }   
       }
       
-      
-
       isPomme = false;
       
       if (isPommeIce) {
@@ -287,9 +262,6 @@ void mangerPomme(){
         isPommeGhost=false;
       }
 }
-
-
-
 
 void checkInformation(){
     if (mousePressed == true){
@@ -352,18 +324,17 @@ void affichageInformation(){
 
 void affichageText(){
   
- textAlign(LEFT);
- textSize(25);
- fill(200,200,0);
- text(leScore, 5,25);
-   //text("Da Snake ", 340, 380); 
-     //text(KeyCode, 40, 380); 
-textSize(10);
+  textAlign(LEFT);
+  textSize(25);
+  fill(200,200,0);
+  text(leScore, 5,25);
+  textSize(10);
+  
   if (modeSpeed>0){
     fill(200,0,0);
     textSize(22);
-   text("Mode Cobra",5,590);
-   text(modeSpeed, 170,590);
+    text("Mode Cobra",5,590);
+    text(modeSpeed, 170,590);
   }
   
   if (state==3){
@@ -381,12 +352,10 @@ textSize(10);
 
   }
   
- fill(200,200,0);
- textSize(10);
- //text("vitesse", 512,590);
- //text(vitesse, 552,590);
- 
-
+   fill(200,200,0);
+   textSize(10);
+   //text("vitesse", 512,590);
+   //text(vitesse, 552,590);
 
 }
 
@@ -425,10 +394,8 @@ void menu(){
      if ((mouseX >= 210) && (mouseX <= 410)){
         if ((mouseY >= 200) && (mouseY <= 250)) {
           //partie lente
-
           initJeu(2);
           
-  
         } else if ((mouseY >= 300) && (mouseY <= 350)) {
           //partie avancée
          initJeu(3);
@@ -440,8 +407,6 @@ void menu(){
        }  
      }
    }
-    
-
 }
 
   void initJeu(int mode){
@@ -519,33 +484,19 @@ void collectObstacle(){
      int futurObstacleX = min(30,max(int((mouseX+10)/k),1));
      int futurObstacleY = min(30,max(int((mouseY+10)/k),1));
      if((checkCollision(futurObstacleX,futurObstacleY)==0)&&((futurX!=futurObstacleX)||(futurY!=futurObstacleY))){
-
-      
-       
+        
        nbObstacles = nbObstacles+1;
        obstacles= (obstacle[])expand(obstacles,nbObstacles);
        obstacles[nbObstacles-1] = new obstacle(futurObstacleX,futurObstacleY);
-
-       
+     
        compteurRelou = 150;
      
      }
-       
-     
-    
       
-  } else {
-    // bah rien
-  }
-  
-  
-  
-  
+  } 
 }
 
-
-
-  void nouvellePomme(){
+void nouvellePomme(){
     // Pomme à pommeX, PommeY
     
     int futurPommeX = int(random(1,30));    
@@ -555,7 +506,6 @@ void collectObstacle(){
     if ((checkCollision(futurPommeX,futurPommeY)!=0)){
         return ;
       }
-    
     
     if (state==3){
       float aleat = random(0,10);
@@ -613,10 +563,7 @@ int checkCollision(int futurX,int futurY){
    if ((futurX==0)||(futurY==0)||(futurX==31)||(futurY==31)){
      return 1;
    }
-   
-   
-
-   
+    
    // si pomme
    if ((futurX==pommeX) && (pommeY==futurY)){
 
@@ -625,10 +572,8 @@ int checkCollision(int futurX,int futurY){
    }
     
     return 0;
-    
- }
+}
 
-  
 class anneau {
 
   int x,y;   // x et y de 1 à 20
@@ -691,7 +636,6 @@ class obstacle {
 }
 
 void effetPomme(int x, int y ){
-  
 
   noStroke();
   if (isPommeIce){
